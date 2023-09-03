@@ -6,7 +6,9 @@
             </h1>
             <ul>
                 <li><router-link to="/coaches">All Coaches</router-link></li>
-                <li><router-link to="/requests">Requests</router-link></li>
+                <li v-if="isLoggedIn"><router-link to="/requests">Requests</router-link></li>
+                <li v-else><router-link to="/auth">Login</router-link></li>
+                <li v-if="isLoggedIn"><base-button @click="logout">Logout</base-button></li>
             </ul>
         </nav>
     </header>
@@ -14,9 +16,14 @@
 
 <script>
 export default({
+    computed: {
+        isLoggedIn() {
+            return this.$store.getters.isAuthenticated;
+        }
+    },
     methods: {
-        getThisBastard() {
-            console.log();
+        logout() {
+            this.$store.dispatch('logout');
         }
     }
 })
